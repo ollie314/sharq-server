@@ -864,8 +864,7 @@ body {
 /* custom css quick hacks */
 #logo {
     background-image: url('../img/logo.png');
-    background-repeat-x: no-repeat;
-    background-repeat-y: no-repeat;
+    background-repeat: no-repeat;
     height: 55px;
 }
 

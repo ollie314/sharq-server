@@ -1,0 +1,244 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Getting Started &mdash; SHARQ Server 0.2.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.2.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="SHARQ Server 0.2.0 documentation" href="index.html" />
+    <link rel="next" title="Configuration" href="configuration.html" />
+    <link rel="prev" title="Installation" href="installation.html" />
+<a href="https://github.com/plivo/sharq-server"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/e7bbb0521b397edbd5fe43e7f760759336b5e05f/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677265656e5f3030373230302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png"></a>
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="configuration.html" title="Configuration"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="installation.html" title="Installation"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">SHARQ Server 0.2.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="getting-started">
+<h1>Getting Started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
+<p>Once the SHARQ Server is installed, it will expose a <strong>sharq-server</strong> command. If you have not yet installed the SHARQ Server, refer <a class="reference external" href="installation.html">here</a> for instructions.</p>
+<p>The <strong>sharq-server</strong> command is minimal and accepts a SHARQ configuration file. To get started quickly, fetch the <a class="reference external" href="https://raw.githubusercontent.com/plivo/sharq-server/master/sharq.conf">SHARQ sample configuration file</a>. Refer to the <a class="reference external" href="configuration.html">configuration section</a> for more details.</p>
+<div class="section" id="running-the-sharq-server">
+<h2>Running the SHARQ Server<a class="headerlink" href="#running-the-sharq-server" title="Permalink to this headline">¶</a></h2>
+<p>The SHARQ Server can be started with the following command.</p>
+<div class="highlight-python"><div class="highlight"><pre>sharq-server --config sharq.conf
+</pre></div>
+</div>
+<p>This will run the SHARQ Server in the foreground with the following output.</p>
+<div class="highlight-python"><div class="highlight"><pre>  ___ _              ___    ___
+ / __| |_  __ _ _ _ / _ \  / __| ___ _ ___ _____ _ _
+ \__ \ &#39; \/ _` | &#39;_| (_) | \__ \/ -_) &#39;_\ V / -_) &#39;_|
+ |___/_||_\__,_|_|  \__\_\ |___/\___|_|  \_/\___|_|
+
+Version: 0.1.0
+
+Listening on: 127.0.0.1:8080
+</pre></div>
+</div>
+<p>Ensure the SHARQ Server has started up correctly by making an HTTP GET request to the server root.</p>
+<div class="highlight-bash"><div class="highlight"><pre>curl http://127.0.0.1:8080/
+<span class="o">{</span>
+  <span class="s2">&quot;message&quot;</span>: <span class="s2">&quot;Hello, SharQ!&quot;</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="sharq-workflow">
+<h2>SHARQ Workflow<a class="headerlink" href="#sharq-workflow" title="Permalink to this headline">¶</a></h2>
+<p>Before using SHARQ, understand its workflow as summarized in the following points:</p>
+<ul class="simple">
+<li><strong>Enqueue</strong> a job into the queue with parameters like <tt class="docutils literal"><span class="pre">queue_type</span></tt>, <tt class="docutils literal"><span class="pre">queue_id</span></tt>, <tt class="docutils literal"><span class="pre">interval</span></tt>, etc. The interval parameter specifies the rate limit of the queue into which the job is being enqueued.</li>
+<li><strong>Dequeue</strong> a job from the queue by specifying the <tt class="docutils literal"><span class="pre">queue_type</span></tt>. The dequeue is non-blocking. This means that dequeue succeeds only if there is any job ready to be dequeued (based on the rate limit) from any of the queues of the type specified by <tt class="docutils literal"><span class="pre">queue_type</span></tt>.</li>
+<li>Once the job has be dequeued, it is the responsibility of the worker to mark the job as successfully complete by making a <strong>Finish</strong> request. If the SHARQ Server does not receive a finish request within a preset interval, it re-queues the job back into the queue. This enables the SHARQ Server to make this job available to the workers, on future dequeue requests.</li>
+</ul>
+<p>Now that you have understood the basic workflow of SHARQ Server, go ahead and try out the SHARQ API as shown below.</p>
+</div>
+<div class="section" id="sharq-api-examples">
+<h2>SHARQ API Examples<a class="headerlink" href="#sharq-api-examples" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="enqueue">
+<h3>Enqueue<a class="headerlink" href="#enqueue" title="Permalink to this headline">¶</a></h3>
+<p>The enqueue API will push the job into the SHARQ Server. Enqueue comes with a lot of parameters which makes SHARQ flexible. A typical enqueue request looks like this:</p>
+<div class="highlight-bash"><div class="highlight"><pre>curl -H <span class="s2">&quot;Accept: application/json&quot;</span> <span class="se">\</span>
+-H <span class="s2">&quot;Content-type: application/json&quot;</span> <span class="se">\</span>
+-X POST -d <span class="s1">&#39; {&quot;job_id&quot;: &quot;b81c07a7-5bba-4790-ab40-a061994088c1&quot;, &quot;interval&quot;: 1000, &quot;payload&quot;: {&quot;message&quot;: &quot;hello, world&quot;}}&#39;</span> <span class="se">\</span>
+http://localhost:8080/enqueue/sms/1/
+</pre></div>
+</div>
+<p>Here is a break down of the above request. To translate the <a class="reference external" href="http://curl.haxx.se/">cURL</a> request in normal English, an HTTP POST request is made to the url <tt class="docutils literal"><span class="pre">http://localhost:8080/enqueue/sms/1/</span></tt> with a JSON payload in the request body. The JSON payload is as follows:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span>
+  <span class="s">&quot;job_id&quot;</span><span class="p">:</span> <span class="s">&quot;b81c07a7-5bba-4790-ab40-a061994088c1&quot;</span><span class="p">,</span>
+  <span class="s">&quot;interval&quot;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span>
+  <span class="s">&quot;payload&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s">&quot;message&quot;</span><span class="p">:</span> <span class="s">&quot;hello, world&quot;</span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The url is of the form: <tt class="docutils literal"><span class="pre">http://hostname:port/enqueue/&lt;queue_type&gt;/&lt;queue_id&gt;/</span></tt>.</p>
+<p>Each queue is uniquely identified by the <tt class="docutils literal"><span class="pre">queue_type</span></tt> and <tt class="docutils literal"><span class="pre">queue_id</span></tt> pair. Any job sent to this url will be pushed into this specific queue. Each job pushed into this queue is identified by the <tt class="docutils literal"><span class="pre">job_id</span></tt>. The <tt class="docutils literal"><span class="pre">queue_type</span></tt> and <tt class="docutils literal"><span class="pre">queue_id</span></tt> pair has to be universally unique but the <tt class="docutils literal"><span class="pre">job_id</span></tt> can be unique at a queue level.</p>
+<p>The <tt class="docutils literal"><span class="pre">interval</span></tt> parameter is of pivotal importance in SHARQ. It is this parameter which defines the rate limit of the queue. Each queue identified by the <tt class="docutils literal"><span class="pre">queue_type</span></tt>, <tt class="docutils literal"><span class="pre">queue_id</span></tt> pair can be set a rate limit (the inverse of interval). For example, if the queue has to be rate limited at 1 request per second, the <tt class="docutils literal"><span class="pre">interval</span></tt> has to be set to 1000 (in milliseconds).</p>
+<p>The <tt class="docutils literal"><span class="pre">payload</span></tt> is a JSON formatted blob which is the actual content that is being queued. This can be any message which has to be transmitted in the queue.</p>
+<p>When the enqueue request succeeds, the SHARQ Server responds with an HTTP status 201 and a message saying:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span>
+  <span class="s">&quot;status&quot;</span><span class="p">:</span> <span class="s">&quot;queued&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>A simple Python snippet to illustrate this using the <a class="reference external" href="http://docs.python-requests.org/en/latest/">Requests Python module</a> can be found <a class="reference external" href="https://gist.github.com/sandeepraju/bfa72c7027e1d739b33e">here</a>.</p>
+</div>
+<div class="section" id="dequeue">
+<h3>Dequeue<a class="headerlink" href="#dequeue" title="Permalink to this headline">¶</a></h3>
+<p>The dequeue API will pull the job from the SHARQ Server. The dequeue request will look for jobs in a particular <tt class="docutils literal"><span class="pre">queue_type</span></tt>. Depending on whether any queue (with <tt class="docutils literal"><span class="pre">queue_id</span></tt>) of that <tt class="docutils literal"><span class="pre">queue_type</span></tt> is ready to be dequeued (based on the rate limit set while enqueuing), the SHARQ Server returns a job or returns a dequeue failure.</p>
+<p>A simple successful dequeue request looks like this:</p>
+<div class="highlight-bash"><div class="highlight"><pre>curl http://localhost:8080/dequeue/sms/
+</pre></div>
+</div>
+<p>Here, <em>sms</em> is the <tt class="docutils literal"><span class="pre">queue_type</span></tt>. The above request is trying to dequeue a job from any of the queues of type <em>sms</em>. If the job is ready, the SHARQ Server responds with an HTTP status 200 and the following content:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span>
+  <span class="s">&quot;job_id&quot;</span><span class="p">:</span> <span class="s">&quot;b81c07a7-5bba-4790-ab40-a061994088c1&quot;</span><span class="p">,</span>
+  <span class="s">&quot;payload&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s">&quot;message&quot;</span><span class="p">:</span> <span class="s">&quot;hello, world&quot;</span>
+  <span class="p">},</span>
+  <span class="s">&quot;queue_id&quot;</span><span class="p">:</span> <span class="s">&quot;1&quot;</span><span class="p">,</span>
+  <span class="s">&quot;status&quot;</span><span class="p">:</span> <span class="s">&quot;success&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>NOTE:</strong></p>
+<ul class="simple">
+<li>It is important to note that dequeue does not actually remove the job from the SHARQ Server. Internally, SHARQ changes the state of this job from <em>pending</em> to <em>active</em> when a dequeue happens. Every dequeue has to be accompanied with a finish request to mark the job as successfully completed. This notifies the SHARQ Server to remove the job completely. If a finish request is not received by SHARQ within a specific time after a successful dequeue, SHARQ assumes the job as failed (marks it as <em>expired</em>) and re-queues it back into the queue. This time interval for which the SHARQ Server waits before marking the job as <em>expired</em> is called the <tt class="docutils literal"><span class="pre">job_expire_interval</span></tt>. This parameter can be set in the configuration file.</li>
+<li>As the dequeue request is non-blocking, it is a common pattern to make the dequeue request in a loop. The SHARQ Server returns a HTTP status 200 on success and a 404 on failure.</li>
+</ul>
+<p>A simple Python snippet to illustrate a simple SHARQ worker using the <a class="reference external" href="http://docs.python-requests.org/en/latest/">Requests Python module</a> can be found <a class="reference external" href="https://gist.github.com/sandeepraju/d733e87e1a735d382d6a">here</a>.</p>
+</div>
+<div class="section" id="finish">
+<h3>Finish<a class="headerlink" href="#finish" title="Permalink to this headline">¶</a></h3>
+<p>The finish API will mark any dequeued job as successfully completed. This notifies the SHARQ Server to remove the job from its system as the job has been acknowledged by the worker as successfully completed.</p>
+<p>A finish request will look like this:</p>
+<div class="highlight-bash"><div class="highlight"><pre>curl -X POST http://localhost:8080/finish/sms/1/b81c07a7-5bba-4790-ab40-a061994088c1/
+</pre></div>
+</div>
+<p>The above request example makes a finish request to the SHARQ Server with <tt class="docutils literal"><span class="pre">job_id</span></tt> <em>b81c07a7-5bba-4790-ab40-a061994088c1</em> belonging to the <tt class="docutils literal"><span class="pre">queue_id</span></tt> <em>1</em> and of <tt class="docutils literal"><span class="pre">queue_type</span></tt> <em>sms</em>. So, the finish request is of the form <tt class="docutils literal"><span class="pre">http://hostname:port/finish/&lt;queue_type&gt;/&lt;queue_id&gt;/&lt;job_id&gt;/</span></tt>.</p>
+<p>The SHARQ Server responds with a status code of 200 and the following message when the finish request succeeds:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span>
+  <span class="s">&quot;status&quot;</span><span class="p">:</span> <span class="s">&quot;success&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>A simple Python snippet to illustrate a minimal but complete SHARQ worker with finish using the <a class="reference external" href="http://docs.python-requests.org/en/latest/">Requests Python module</a> can be found <a class="reference external" href="https://gist.github.com/sandeepraju/3da0ad035aa9bf5504b1">here</a>.</p>
+<p>The SHARQ Server waits for the finish request after a dequeue for a specified time interval before marking the job as <em>expired</em> and further re-queueing the job back into the queue. Any job which gets a finish request within this interval will be marked as <em>successful</em> and removed from the SHARQ Server. This wait interval can be set in the configuration file. The <tt class="docutils literal"><span class="pre">job_expire_interval</span></tt> in the configuration file, specifies the time interval which the SHARQ Server waits for a dequeue request, from the worker, before marking a job as <em>expired</em> (ready to be re-queued back). The <tt class="docutils literal"><span class="pre">job_requeue_interval</span></tt> in the configuration file, specifies the time interval between two clean up operations on the SHARQ Server. A clean up operation is the process of re-queuing all jobs that are marked as <em>expired</em>.</p>
+<p>The SHARQ Server contains an <a class="reference external" href="apireference.html#interval">Internal API</a> to update the rates of queues in real time. It also contains a <a class="reference external" href="apireference.html#metrics">Metrics API</a> to get basic information such as the queue length, list of active queues, and so on. Check out the <a class="reference external" href="apireference.html">API Reference</a> section for more details.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="index.html">
+    <img class="logo" src="_static/logo.png" alt="Logo"/>
+    
+  </a>
+</p>
+
+
+
+
+
+<p>
+<iframe src="http://ghbtns.com/github-btn.html?user=plivo&repo=sharq-server&type=watch&count=true&size=large"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#running-the-sharq-server">Running the SHARQ Server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sharq-workflow">SHARQ Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sharq-api-examples">SHARQ API Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apireference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="internals.html">The Internals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faqs.html">Frequently Asked  Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2014, Plivo Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.2.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.6.1</a>
+      
+      |
+      <a href="_sources/gettingstarted.txt"
+          rel="nofollow">Page source</a></li>
+    </div>
+
+    
+
+    
+  </body>
+</html>

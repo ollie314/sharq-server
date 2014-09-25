@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Contributing &mdash; SHARQ Server 0.2.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.2.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="SHARQ Server 0.2.0 documentation" href="index.html" />
+    <link rel="next" title="License" href="license.html" />
+    <link rel="prev" title="Frequently Asked Questions" href="faqs.html" />
+<a href="https://github.com/plivo/sharq-server"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/e7bbb0521b397edbd5fe43e7f760759336b5e05f/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677265656e5f3030373230302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png"></a>
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="license.html" title="License"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="faqs.html" title="Frequently Asked Questions"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">SHARQ Server 0.2.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="contributing">
+<h1>Contributing<a class="headerlink" href="#contributing" title="Permalink to this headline">¶</a></h1>
+<p>SHARQ is open source and released under the permissive <a class="reference external" href="opensource.org/licenses/MIT">MIT License</a>. No software is complete and bugfree. If you feel something can be improved in SHARQ or would like to report bugs, feel free to do so. Pull requests are always welcome!</p>
+<p>SHARQ consists of two components architecturally and with respect to codebases.</p>
+<ol class="arabic simple">
+<li>The <a class="reference external" href="https://github.com/plivo/sharq">SHARQ Core</a> which implements the core functionality of SHARQ which is rate limiting.</li>
+<li>The <a class="reference external" href="https://github.com/plivo/sharq-server">SHARQ Server</a> which exposes an HTTP interface via <a class="reference external" href="http://flask.pocoo.org/">Flask</a> &amp; <a class="reference external" href="http://www.gevent.org/">Gevent</a>.</li>
+</ol>
+<p>The core rate limiting algorithm is implemented in Lua. The detailed explanation of the algorithm with the implementation details and the <a class="reference external" href="https://redis.io/">Redis</a> data structures can be found in <a class="reference external" href="/internals.html">The Internals</a> section.</p>
+<p><strong>Github Repository Links:</strong></p>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/plivo/sharq-server">https://github.com/plivo/sharq-server</a></li>
+<li><a class="reference external" href="https://github.com/plivo/sharq">https://github.com/plivo/sharq</a></li>
+</ul>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="index.html">
+    <img class="logo" src="_static/logo.png" alt="Logo"/>
+    
+  </a>
+</p>
+
+
+
+
+
+<p>
+<iframe src="http://ghbtns.com/github-btn.html?user=plivo&repo=sharq-server&type=watch&count=true&size=large"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gettingstarted.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apireference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="internals.html">The Internals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faqs.html">Frequently Asked  Questions</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2014, Plivo Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.2.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.6.1</a>
+      
+      |
+      <a href="_sources/contributing.txt"
+          rel="nofollow">Page source</a></li>
+    </div>
+
+    
+
+    
+  </body>
+</html>

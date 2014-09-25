@@ -1,0 +1,223 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Frequently Asked Questions &mdash; SHARQ Server 0.2.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.2.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="SHARQ Server 0.2.0 documentation" href="index.html" />
+    <link rel="next" title="Contributing" href="contributing.html" />
+    <link rel="prev" title="The Internals" href="internals.html" />
+<a href="https://github.com/plivo/sharq-server"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/e7bbb0521b397edbd5fe43e7f760759336b5e05f/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677265656e5f3030373230302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png"></a>
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="contributing.html" title="Contributing"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="internals.html" title="The Internals"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">SHARQ Server 0.2.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="frequently-asked-questions">
+<h1>Frequently Asked  Questions<a class="headerlink" href="#frequently-asked-questions" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="when-should-i-use-sharq">
+<h2>When should I use SHARQ?<a class="headerlink" href="#when-should-i-use-sharq" title="Permalink to this headline">¶</a></h2>
+<p>If you want the flexibility to dynamically create queues and update their rate limits in real time without making any configuration changes, then you need SHARQ.</p>
+</div>
+<div class="section" id="how-do-i-set-a-rate-limit-for-a-queue">
+<h2>How do I set a rate limit for a queue?<a class="headerlink" href="#how-do-i-set-a-rate-limit-for-a-queue" title="Permalink to this headline">¶</a></h2>
+<p>The rate limit of a queue (which is the inverse of an interval), can be set while making an enqueue request. Each enqueue request requires the <tt class="docutils literal"><span class="pre">interval</span></tt> parameter which defines the rate limit of the queue. For example, if the queue has to be rate limited at 1 request per second, the <tt class="docutils literal"><span class="pre">interval</span></tt> has to be set to 1000 (in milliseconds). Refer to the <a class="reference external" href="gettingstarted.html">Getting Started</a> section to know more about how to set the interval while making an enqueue request.</p>
+</div>
+<div class="section" id="how-do-i-change-the-rate-limit-of-a-queue">
+<h2>How do I change the rate limit of a queue?<a class="headerlink" href="#how-do-i-change-the-rate-limit-of-a-queue" title="Permalink to this headline">¶</a></h2>
+<p>Once the rate limit has been set for a queue during the enqueue operation, it can be changed using the <a class="reference external" href="apireference.html#interval">Interval API</a>.</p>
+</div>
+<div class="section" id="how-do-i-write-a-sharq-worker-for-processing-jobs-from-the-sharq-server">
+<h2>How do I write a SHARQ worker for processing jobs from the SHARQ Server?<a class="headerlink" href="#how-do-i-write-a-sharq-worker-for-processing-jobs-from-the-sharq-server" title="Permalink to this headline">¶</a></h2>
+<p>A simple SHARQ worker polls for the jobs in a loop. The <a class="reference external" href="https://gist.github.com/sandeepraju/3da0ad035aa9bf5504b1">Python snippet</a> below shows how to structure a minimal worker:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+    <span class="c"># dequeue the job from the queue of type `sms`</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;http://localhost:8080/dequeue/sms/&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+            <span class="c"># successful dequeue.</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+            <span class="k">print</span> <span class="n">r</span><span class="p">[</span><span class="s">&#39;payload&#39;</span><span class="p">]</span>  <span class="c"># process the payload here.</span>
+            <span class="n">queue_id</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="s">&#39;queue_id&#39;</span><span class="p">]</span>
+            <span class="n">job_id</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="s">&#39;job_id&#39;</span><span class="p">]</span>
+            <span class="c"># mark the job as completed successfully by</span>
+            <span class="c"># sending a finish request.</span>
+            <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+                <span class="s">&#39;http://localhost:8080/finish/sms/</span><span class="si">%s</span><span class="s">/</span><span class="si">%s</span><span class="s">/&#39;</span> <span class="o">%</span> <span class="p">(</span>
+                <span class="n">queue_id</span><span class="p">,</span> <span class="n">job_id</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">404</span><span class="p">:</span>
+            <span class="c"># no job found (either queue is empty or none</span>
+            <span class="c"># of the jobs are ready yet).</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c"># wait for a second before retrying if needed.</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&quot;Something went wrong!&quot;</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>  <span class="c"># retry after 5 seconds.</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="how-do-i-configure-the-time-of-expiry-of-a-job">
+<h2>How do I configure the time of expiry of a job?<a class="headerlink" href="#how-do-i-configure-the-time-of-expiry-of-a-job" title="Permalink to this headline">¶</a></h2>
+<p>Any job which is dequeued by the worker has to be acknowledged with a finish request within a specific time period, to mark that job as successfully processed. The job which does not get a finish request within this period will be marked as <em>expired</em> by the SHARQ Server. This time period has to be specified by the <tt class="docutils literal"><span class="pre">job_expire_interval</span></tt> parameter in the SHARQ configuration file.</p>
+</div>
+<div class="section" id="how-do-i-configure-when-the-expired-jobs-should-be-re-queued">
+<h2>How do I configure when the expired jobs should be re-queued?<a class="headerlink" href="#how-do-i-configure-when-the-expired-jobs-should-be-re-queued" title="Permalink to this headline">¶</a></h2>
+<p>All expired jobs in the SHARQ Server will be re-queued back into their respective queues during the <em>clean up</em> process. The time interval between two clean ups can be specified by the <tt class="docutils literal"><span class="pre">job_requeue_interval</span></tt> parameter in the SHARQ configuration file.</p>
+</div>
+<div class="section" id="is-there-a-way-to-run-the-sharq-server-using-uwsgi">
+<h2>Is there a way to run the SHARQ Server using uWSGI?<a class="headerlink" href="#is-there-a-way-to-run-the-sharq-server-using-uwsgi" title="Permalink to this headline">¶</a></h2>
+<p>Yes! By default the SHARQ Server uses <a class="reference external" href="http://gunicorn.org/">Gunicorn</a> internally. If you want to use <a class="reference external" href="https://uwsgi-docs.readthedocs.org/en/latest/">uWSGI</a> or any other server based on WSGI, you can do so by running <tt class="docutils literal"><span class="pre">wsgi.py</span></tt> provided in the source files <a class="reference external" href="https://github.com/plivo/sharq-server/blob/master/wsgi.py">available on Github</a>. For optimal performance, it is recommended to use  uWSGI with <a class="reference external" href="http://nginx.org/">Nginx</a>. More details can be found in the <a class="reference external" href="http://uwsgi-docs.readthedocs.org/en/latest/Nginx.html">uWSGI documentation</a>.</p>
+</div>
+<div class="section" id="how-do-i-know-the-number-of-jobs-in-any-queue-in-real-time">
+<h2>How do I know the number of jobs in any queue in real time?<a class="headerlink" href="#how-do-i-know-the-number-of-jobs-in-any-queue-in-real-time" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference external" href="apireference.html#metrics">Metrics API</a> lets you query the SHARQ Server for details like number of jobs, per minute enqueue &amp; dequeue rates, and so on. Read the <a class="reference external" href="apireference.html#metrics">API Reference</a> section for more details.</p>
+</div>
+<div class="section" id="how-do-i-get-a-list-of-all-queues-in-the-sharq-server">
+<h2>How do I get a list of all queues in the SHARQ Server?<a class="headerlink" href="#how-do-i-get-a-list-of-all-queues-in-the-sharq-server" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference external" href="apireference.html#metrics">Metrics API</a> lets you query the SHARQ Server for details like number of jobs, per minute enqueue &amp; dequeue rates, and so on. Read the <a class="reference external" href="apireference.html#metrics">API Reference</a> section for more details.</p>
+</div>
+<div class="section" id="how-do-i-check-the-status-of-a-job-in-real-time">
+<h2>How do I check the status of a job in real time?<a class="headerlink" href="#how-do-i-check-the-status-of-a-job-in-real-time" title="Permalink to this headline">¶</a></h2>
+<p>This feature is not yet available in SHARQ but will be implemented in the future.</p>
+</div>
+<div class="section" id="where-can-i-find-the-source-code-of-sharq">
+<h2>Where can I find the source code of SHARQ?<a class="headerlink" href="#where-can-i-find-the-source-code-of-sharq" title="Permalink to this headline">¶</a></h2>
+<p>The SHARQ code base is split into two components - the core component and the server component. You can find it here:</p>
+<p><strong>Github Repository Links:</strong></p>
+<ul class="simple">
+<li>The SHARQ Core - <a class="reference external" href="https://github.com/plivo/sharq">https://github.com/plivo/sharq</a></li>
+<li>The SHARQ Server - <a class="reference external" href="https://github.com/plivo/sharq-server">https://github.com/plivo/sharq-server</a></li>
+</ul>
+<p>Read the <a class="reference external" href="contributing.html">Contributing</a> section for more details.</p>
+</div>
+<div class="section" id="i-just-found-a-bug-how-do-i-report-it">
+<h2>I just found a bug. How do I report it?<a class="headerlink" href="#i-just-found-a-bug-how-do-i-report-it" title="Permalink to this headline">¶</a></h2>
+<p>Read the <a class="reference external" href="contributing.html">Contributing</a> section for more details.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="index.html">
+    <img class="logo" src="_static/logo.png" alt="Logo"/>
+    
+  </a>
+</p>
+
+
+
+
+
+<p>
+<iframe src="http://ghbtns.com/github-btn.html?user=plivo&repo=sharq-server&type=watch&count=true&size=large"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gettingstarted.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apireference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="internals.html">The Internals</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Frequently Asked  Questions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#when-should-i-use-sharq">When should I use SHARQ?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-do-i-set-a-rate-limit-for-a-queue">How do I set a rate limit for a queue?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-do-i-change-the-rate-limit-of-a-queue">How do I change the rate limit of a queue?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-do-i-write-a-sharq-worker-for-processing-jobs-from-the-sharq-server">How do I write a SHARQ worker for processing jobs from the SHARQ Server?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-do-i-configure-the-time-of-expiry-of-a-job">How do I configure the time of expiry of a job?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-do-i-configure-when-the-expired-jobs-should-be-re-queued">How do I configure when the expired jobs should be re-queued?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#is-there-a-way-to-run-the-sharq-server-using-uwsgi">Is there a way to run the SHARQ Server using uWSGI?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-do-i-know-the-number-of-jobs-in-any-queue-in-real-time">How do I know the number of jobs in any queue in real time?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-do-i-get-a-list-of-all-queues-in-the-sharq-server">How do I get a list of all queues in the SHARQ Server?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-do-i-check-the-status-of-a-job-in-real-time">How do I check the status of a job in real time?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#where-can-i-find-the-source-code-of-sharq">Where can I find the source code of SHARQ?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#i-just-found-a-bug-how-do-i-report-it">I just found a bug. How do I report it?</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2014, Plivo Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.2.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.6.1</a>
+      
+      |
+      <a href="_sources/faqs.txt"
+          rel="nofollow">Page source</a></li>
+    </div>
+
+    
+
+    
+  </body>
+</html>

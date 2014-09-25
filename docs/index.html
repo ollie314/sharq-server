@@ -1,0 +1,175 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Welcome to SHARQ! &mdash; SHARQ Server 0.2.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.2.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="SHARQ Server 0.2.0 documentation" href="#" />
+    <link rel="next" title="Installation" href="installation.html" />
+<a href="https://github.com/plivo/sharq-server"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/e7bbb0521b397edbd5fe43e7f760759336b5e05f/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677265656e5f3030373230302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png"></a>
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="installation.html" title="Installation"
+             accesskey="N">next</a> |</li>
+        <li><a href="#">SHARQ Server 0.2.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="welcome-to-sharq">
+<h1>Welcome to SHARQ!<a class="headerlink" href="#welcome-to-sharq" title="Permalink to this headline">¶</a></h1>
+<p>SHARQ is a flexible, open source, rate limited queuing system. Based on the <a class="reference external" href="http://en.wikipedia.org/wiki/Leaky_bucket#The_Leaky_Bucket_Algorithm_as_a_Queue">Leaky Bucket Algorithm</a>, <a class="reference external" href="https://github.com/plivo/sharq-server">SHARQ</a> lets you create queues dynamically and update their rate limits in real time.</p>
+<p>SHARQ consists of two components - the core component and the server component. The SHARQ core is built on <a class="reference external" href="https://redis.io/">Redis</a>, using Python and Lua, and the SHARQ Server is built using <a class="reference external" href="http://flask.pocoo.org/">Flask</a> and <a class="reference external" href="http://www.gevent.org/">Gevent</a> and talks HTTP.</p>
+<p>SHARQ is released under the permissive <a class="reference external" href="https://github.com/plivo/sharq-server/blob/master/LICENSE.txt">MIT License</a> and is <a class="reference external" href="https://github.com/plivo/sharq-server">available on Github</a>!</p>
+<p>To learn more about SHARQ, check out the <a class="reference external" href="gettingstarted.html">getting started section</a>.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#installing-from-pypi">Installing from PyPI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#installing-from-github">Installing from Github</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="gettingstarted.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="gettingstarted.html#running-the-sharq-server">Running the SHARQ Server</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gettingstarted.html#sharq-workflow">SHARQ Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gettingstarted.html#sharq-api-examples">SHARQ API Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="configuration.html#id1">sharq section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration.html#id2">sharq-server section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration.html#id3">redis section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="configuration.html#a-sample-configuration-file">A Sample Configuration File</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="apireference.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="apireference.html#enqueue">Enqueue</a></li>
+<li class="toctree-l2"><a class="reference internal" href="apireference.html#dequeue">Dequeue</a></li>
+<li class="toctree-l2"><a class="reference internal" href="apireference.html#finish">Finish</a></li>
+<li class="toctree-l2"><a class="reference internal" href="apireference.html#interval">Interval</a></li>
+<li class="toctree-l2"><a class="reference internal" href="apireference.html#metrics">Metrics</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="internals.html">The Internals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faqs.html">Frequently Asked  Questions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="faqs.html#when-should-i-use-sharq">When should I use SHARQ?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="faqs.html#how-do-i-set-a-rate-limit-for-a-queue">How do I set a rate limit for a queue?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="faqs.html#how-do-i-change-the-rate-limit-of-a-queue">How do I change the rate limit of a queue?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="faqs.html#how-do-i-write-a-sharq-worker-for-processing-jobs-from-the-sharq-server">How do I write a SHARQ worker for processing jobs from the SHARQ Server?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="faqs.html#how-do-i-configure-the-time-of-expiry-of-a-job">How do I configure the time of expiry of a job?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="faqs.html#how-do-i-configure-when-the-expired-jobs-should-be-re-queued">How do I configure when the expired jobs should be re-queued?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="faqs.html#is-there-a-way-to-run-the-sharq-server-using-uwsgi">Is there a way to run the SHARQ Server using uWSGI?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="faqs.html#how-do-i-know-the-number-of-jobs-in-any-queue-in-real-time">How do I know the number of jobs in any queue in real time?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="faqs.html#how-do-i-get-a-list-of-all-queues-in-the-sharq-server">How do I get a list of all queues in the SHARQ Server?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="faqs.html#how-do-i-check-the-status-of-a-job-in-real-time">How do I check the status of a job in real time?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="faqs.html#where-can-i-find-the-source-code-of-sharq">Where can I find the source code of SHARQ?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="faqs.html#i-just-found-a-bug-how-do-i-report-it">I just found a bug. How do I report it?</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="#">
+    <img class="logo" src="_static/logo.png" alt="Logo"/>
+    
+  </a>
+</p>
+
+
+
+
+
+<p>
+<iframe src="http://ghbtns.com/github-btn.html?user=plivo&repo=sharq-server&type=watch&count=true&size=large"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gettingstarted.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apireference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="internals.html">The Internals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faqs.html">Frequently Asked  Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2014, Plivo Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.2.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.6.1</a>
+      
+      |
+      <a href="_sources/index.txt"
+          rel="nofollow">Page source</a></li>
+    </div>
+
+    
+
+    
+  </body>
+</html>

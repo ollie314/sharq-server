@@ -1,0 +1,231 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Configuration &mdash; SHARQ Server 0.2.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.2.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="SHARQ Server 0.2.0 documentation" href="index.html" />
+    <link rel="next" title="API Reference" href="apireference.html" />
+    <link rel="prev" title="Getting Started" href="gettingstarted.html" />
+<a href="https://github.com/plivo/sharq-server"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/e7bbb0521b397edbd5fe43e7f760759336b5e05f/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677265656e5f3030373230302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png"></a>
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="apireference.html" title="API Reference"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="gettingstarted.html" title="Getting Started"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">SHARQ Server 0.2.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="configuration">
+<h1>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h1>
+<p>The SHARQ configuration file is minimal and has three sections.</p>
+<ul class="simple">
+<li><a class="reference external" href="#id1">Sharq Section</a></li>
+<li><a class="reference external" href="#id2">Sharq Server Section</a></li>
+<li><a class="reference external" href="#id3">Redis Section</a></li>
+</ul>
+<div class="section" id="id1">
+<h2>sharq section<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>This section contains the configurations specific to the SHARQ core.</p>
+<div class="section" id="job-expire-interval">
+<h3>job_expire_interval<a class="headerlink" href="#job-expire-interval" title="Permalink to this headline">¶</a></h3>
+<p><tt class="docutils literal"><span class="pre">job_expire_interval</span></tt> is the number of milliseconds after which any job
+not marked as finished will expire. All expired jobs are scheduled for re-queueing.</p>
+</div>
+<div class="section" id="job-requeue-interval">
+<h3>job_requeue_interval<a class="headerlink" href="#job-requeue-interval" title="Permalink to this headline">¶</a></h3>
+<p><tt class="docutils literal"><span class="pre">job_requeue_interval</span></tt> is the number of milliseconds to wait between
+two clean up processes. A clean up re-queues all the expired jobs back into their
+respective queues.</p>
+</div>
+</div>
+<div class="section" id="id2">
+<h2>sharq-server section<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>This section contains the configurations specific to the SHARQ Server.</p>
+<div class="section" id="host">
+<h3>host<a class="headerlink" href="#host" title="Permalink to this headline">¶</a></h3>
+<p><tt class="docutils literal"><span class="pre">host</span></tt> is IP address to which the SHARQ Server should bind to.</p>
+</div>
+<div class="section" id="port">
+<h3>port<a class="headerlink" href="#port" title="Permalink to this headline">¶</a></h3>
+<p><tt class="docutils literal"><span class="pre">port</span></tt> is where the SHARQ Server should listen for requests.</p>
+</div>
+<div class="section" id="workers">
+<h3>workers<a class="headerlink" href="#workers" title="Permalink to this headline">¶</a></h3>
+<p>SHARQ Server internally uses <a class="reference external" href="http://gunicorn.org/">Gunicorn</a> as the server. The <tt class="docutils literal"><span class="pre">workers</span></tt> parameter specifies the number of Gunicorn workers to spawn when the server starts. More details on this can be found in the <a class="reference external" href="http://docs.gunicorn.org/en/latest/settings.html#workers">Gunicorn docs</a>.</p>
+</div>
+<div class="section" id="accesslog">
+<h3>accesslog<a class="headerlink" href="#accesslog" title="Permalink to this headline">¶</a></h3>
+<p>Location for the SHARQ Server to write its access logs.</p>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>redis section<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>This section contains the configurations specific to Redis.</p>
+<div class="section" id="db">
+<h3>db<a class="headerlink" href="#db" title="Permalink to this headline">¶</a></h3>
+<p>The Redis database number to which the SHARQ Server should connect.</p>
+</div>
+<div class="section" id="key-prefix">
+<h3>key_prefix<a class="headerlink" href="#key-prefix" title="Permalink to this headline">¶</a></h3>
+<p>Every key used by the SHARQ Server in Redis will start with this prefix.</p>
+</div>
+<div class="section" id="conn-type">
+<h3>conn_type<a class="headerlink" href="#conn-type" title="Permalink to this headline">¶</a></h3>
+<p>Specifies how the SHARQ Server should connect to Redis. If Redis is in
+the same machine as the SHARQ Server, then connecting via unix socket (<em>unix_sock</em>)
+is recommended.</p>
+<p>If Redis is on a remote machine, set <tt class="docutils literal"><span class="pre">conn\_type</span></tt> to <em>tcp_sock</em>.</p>
+</div>
+<div class="section" id="unix-socket-path">
+<h3>unix_socket_path<a class="headerlink" href="#unix-socket-path" title="Permalink to this headline">¶</a></h3>
+<p>Absolute path of the unix socket created by Redis. This has to be set in
+case the <tt class="docutils literal"><span class="pre">conn\_type</span></tt> is set to <em>unix_sock</em>.</p>
+</div>
+<div class="section" id="id4">
+<h3>port<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p>Port where Redis listens for connections.</p>
+</div>
+<div class="section" id="id5">
+<h3>host<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<p>IP address or FQDN of Redis.</p>
+</div>
+</div>
+<div class="section" id="a-sample-configuration-file">
+<h2>A Sample Configuration File<a class="headerlink" href="#a-sample-configuration-file" title="Permalink to this headline">¶</a></h2>
+<p>A sample configuration file looks like this. You can also get this configuration file from the <a class="reference external" href="https://raw.githubusercontent.com/plivo/sharq-server/master/sharq.conf">Github repository</a>.</p>
+<div class="highlight-ini"><div class="highlight"><pre>[sharq]
+job_expire_interval  : 1000 ; in milliseconds
+job_requeue_interval : 1000 ; in milliseconds
+
+[sharq-server]
+host                 : 127.0.0.1
+port                 : 8080
+workers              : 1 ; optional
+accesslog            : /tmp/sharq.log ; optional
+
+[redis]
+db                   : 0
+key_prefix           : sharq_server
+conn_type            : tcp_sock ; or unix_sock
+;; unix connection settings
+unix_socket_path     : /tmp/redis.sock
+;; tcp connection settings
+port                 : 6379
+host                 : 127.0.0.1
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="index.html">
+    <img class="logo" src="_static/logo.png" alt="Logo"/>
+    
+  </a>
+</p>
+
+
+
+
+
+<p>
+<iframe src="http://ghbtns.com/github-btn.html?user=plivo&repo=sharq-server&type=watch&count=true&size=large"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gettingstarted.html">Getting Started</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Configuration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">sharq section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">sharq-server section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">redis section</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#a-sample-configuration-file">A Sample Configuration File</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="apireference.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="internals.html">The Internals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faqs.html">Frequently Asked  Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2014, Plivo Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.2.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.6.1</a>
+      
+      |
+      <a href="_sources/configuration.txt"
+          rel="nofollow">Page source</a></li>
+    </div>
+
+    
+
+    
+  </body>
+</html>

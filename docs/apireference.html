@@ -1,0 +1,405 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>API Reference &mdash; SHARQ Server 0.2.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.2.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="SHARQ Server 0.2.0 documentation" href="index.html" />
+    <link rel="next" title="The Internals" href="internals.html" />
+    <link rel="prev" title="Configuration" href="configuration.html" />
+<a href="https://github.com/plivo/sharq-server"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/e7bbb0521b397edbd5fe43e7f760759336b5e05f/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677265656e5f3030373230302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png"></a>
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="internals.html" title="The Internals"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="configuration.html" title="Configuration"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">SHARQ Server 0.2.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="api-reference">
+<h1>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h1>
+<p>This section contains a very brief introduction to the SHARQ API. If you are looking to get started with SHARQ, refer to the <a class="reference external" href="gettingstarted.html">getting started section</a> before reading this.</p>
+<div class="section" id="enqueue">
+<h2>Enqueue<a class="headerlink" href="#enqueue" title="Permalink to this headline">¶</a></h2>
+<p>Enqueue a job into the SHARQ Server.</p>
+<div class="highlight-python"><div class="highlight"><pre>POST /enqueue/&lt;queue_type&gt;/&lt;queue_id&gt;/
+</pre></div>
+</div>
+<p><strong>Request (Raw JSON POST data):</strong></p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span>
+  <span class="s">&quot;job_id&quot;</span><span class="p">:</span> <span class="s">&quot;b81c07a7-5bba-4790-ab40-a061994088c1&quot;</span><span class="p">,</span>
+  <span class="s">&quot;interval&quot;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span>
+  <span class="s">&quot;payload&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s">&quot;hello&quot;</span><span class="p">:</span> <span class="s">&quot;world&quot;</span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Response (success):</strong></p>
+<p>Status Code: 201</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span>
+  <span class="s">&quot;status&quot;</span><span class="p">:</span> <span class="s">&quot;queued&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Response (bad request):</strong></p>
+<p>Status Code: 400</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span>
+    <span class="s">&quot;message&quot;</span><span class="p">:</span> <span class="s">&quot;`queue_type` is a mandatory parameter&quot;</span><span class="p">,</span>
+    <span class="s">&quot;status&quot;</span><span class="p">:</span> <span class="s">&quot;failure&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>cURL Example:</strong></p>
+<div class="highlight-python"><div class="highlight"><pre>$curl -H &quot;Accept: application/json&quot; \
+-H &quot;Content-type: application/json&quot; \
+-X POST -d &#39; {&quot;job_id&quot;: &quot;b81c07a7-5bba-4790-ab40-a061994088c1&quot;, &quot;interval&quot;: 1000, &quot;payload&quot;: {&quot;hello&quot;: &quot;world&quot;}}&#39; \
+http://localhost:8080/enqueue/sms/1/
+</pre></div>
+</div>
+</div>
+<div class="section" id="dequeue">
+<h2>Dequeue<a class="headerlink" href="#dequeue" title="Permalink to this headline">¶</a></h2>
+<p>Dequeue a job from the SHARQ Server.</p>
+<div class="highlight-python"><div class="highlight"><pre>GET /dequeue/&lt;queue_type&gt;/
+</pre></div>
+</div>
+<p><strong>Response (success):</strong></p>
+<p>Status Code: 200</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span>
+  <span class="s">&quot;job_id&quot;</span><span class="p">:</span> <span class="s">&quot;b81c07a7-5bba-4790-ab40-a061994088c1&quot;</span><span class="p">,</span>
+  <span class="s">&quot;payload&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s">&quot;hello&quot;</span><span class="p">:</span> <span class="s">&quot;world&quot;</span>
+  <span class="p">},</span>
+  <span class="s">&quot;queue_id&quot;</span><span class="p">:</span> <span class="s">&quot;1&quot;</span><span class="p">,</span>
+  <span class="s">&quot;status&quot;</span><span class="p">:</span> <span class="s">&quot;success&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Response (queue has no job ready):</strong></p>
+<p>Status Code: 404</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span>
+    <span class="s">&quot;status&quot;</span><span class="p">:</span> <span class="s">&quot;failure&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Response (bad request):</strong> Status Code: 400</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span>
+    <span class="s">&quot;message&quot;</span><span class="p">:</span> <span class="s">&quot;`queue_type` has an invalid value.&quot;</span><span class="p">,</span>
+    <span class="s">&quot;status&quot;</span><span class="p">:</span> <span class="s">&quot;failure&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>cURL Example:</strong></p>
+<div class="highlight-python"><div class="highlight"><pre>curl http://localhost:8080/dequeue/sms/
+</pre></div>
+</div>
+</div>
+<div class="section" id="finish">
+<h2>Finish<a class="headerlink" href="#finish" title="Permalink to this headline">¶</a></h2>
+<p>Mark a dequeued job as finished.</p>
+<div class="highlight-python"><div class="highlight"><pre>POST /finish/&lt;queue_type&gt;/&lt;queue_id&gt;/&lt;job_id&gt;/
+</pre></div>
+</div>
+<p><strong>Response (success):</strong></p>
+<p>Status Code: 200</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span>
+  <span class="s">&quot;status&quot;</span><span class="p">:</span> <span class="s">&quot;success&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Response (job was not found):</strong></p>
+<p>Status Code: 404</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span>
+  <span class="s">&quot;status&quot;</span><span class="p">:</span> <span class="s">&quot;failure&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Response (bad request):</strong></p>
+<p>Status Code: 400</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span>
+    <span class="s">&quot;message&quot;</span><span class="p">:</span> <span class="s">&quot;`queue_id` is a mandatory parameter&quot;</span><span class="p">,</span>
+    <span class="s">&quot;status&quot;</span><span class="p">:</span> <span class="s">&quot;failure&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>cURL Example:</strong></p>
+<div class="highlight-python"><div class="highlight"><pre>curl -X POST http://localhost:8080/finish/sms/1/b81c07a7-5bba-4790-ab40-a061994088c1/
+</pre></div>
+</div>
+</div>
+<div class="section" id="interval">
+<h2>Interval<a class="headerlink" href="#interval" title="Permalink to this headline">¶</a></h2>
+<p>Updates the interval (and effectively the rate) of any queue. The interval has to be specified in the request body, in the JSON format as shown below:</p>
+<div class="highlight-python"><div class="highlight"><pre>POST /interval/&lt;queue_type&gt;/&lt;queue_id&gt;/
+</pre></div>
+</div>
+<p><strong>Request (Raw JSON POST data):</strong></p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span>
+  <span class="s">&quot;interval&quot;</span><span class="p">:</span> <span class="mi">1000</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Response (success):</strong></p>
+<p>Status Code: 200</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span>
+  <span class="s">&quot;status&quot;</span><span class="p">:</span> <span class="s">&quot;success&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Response (queue was not found):</strong></p>
+<p>Status Code: 404</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span>
+  <span class="s">&quot;status&quot;</span><span class="p">:</span> <span class="s">&quot;failure&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Response (bad request):</strong></p>
+<p>Status Code: 400</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span>
+  <span class="s">&quot;message&quot;</span><span class="p">:</span> <span class="s">&quot;`interval` has an invalid value.&quot;</span><span class="p">,</span>
+  <span class="s">&quot;status&quot;</span><span class="p">:</span> <span class="s">&quot;failure&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>cURL Example:</strong></p>
+<div class="highlight-python"><div class="highlight"><pre>curl -H &quot;Accept: application/json&quot; \
+-H &quot;Content-type: application/json&quot; \
+-X POST -d &#39; {&quot;interval&quot;: 5000}&#39; \
+http://localhost:8080/interval/sms/1/
+</pre></div>
+</div>
+</div>
+<div class="section" id="metrics">
+<h2>Metrics<a class="headerlink" href="#metrics" title="Permalink to this headline">¶</a></h2>
+<p>The Metrics API enables getting basic metrics from the SHARQ Server.</p>
+<div class="section" id="global-metrics">
+<h3>Global Metrics<a class="headerlink" href="#global-metrics" title="Permalink to this headline">¶</a></h3>
+<p>Fetches metrics on a global level (the consolidated metrics of all queues in SHARQ) from the SHARQ Server. The response to the API request, contains the enqueue and dequeue counts which show the number of enqueues and dequeues in each minute over a period of 10 minutes.</p>
+<div class="highlight-python"><div class="highlight"><pre>GET /metrics/
+</pre></div>
+</div>
+<p><strong>Response (success):</strong></p>
+<p>Status Code: 200</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span>
+  <span class="s">&quot;dequeue_counts&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s">&quot;1406200290000&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&quot;1406200344000&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&quot;1406200392000&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&quot;1406200434000&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&quot;1406200470000&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&quot;1406200500000&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&quot;1406200524000&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&quot;1406200542000&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&quot;1406200554000&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&quot;1406200560000&quot;</span><span class="p">:</span> <span class="mi">0</span>
+  <span class="p">},</span>
+  <span class="s">&quot;enqueue_counts&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s">&quot;1406200290000&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&quot;1406200344000&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&quot;1406200392000&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&quot;1406200434000&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&quot;1406200470000&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&quot;1406200500000&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&quot;1406200524000&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&quot;1406200542000&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&quot;1406200554000&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&quot;1406200560000&quot;</span><span class="p">:</span> <span class="mi">0</span>
+  <span class="p">},</span>
+  <span class="s">&quot;queue_types&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="s">&quot;sms&quot;</span>
+  <span class="p">],</span>
+  <span class="s">&quot;status&quot;</span><span class="p">:</span> <span class="s">&quot;success&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>cURL Example:</strong></p>
+<div class="highlight-python"><div class="highlight"><pre>curl  http://localhost:8080/metrics/
+</pre></div>
+</div>
+</div>
+<div class="section" id="list-queue-ids">
+<h3>List Queue Ids<a class="headerlink" href="#list-queue-ids" title="Permalink to this headline">¶</a></h3>
+<p>Lists all the queues of a particular queue type in the SHARQ Server.</p>
+<div class="highlight-python"><div class="highlight"><pre>GET /metrics/&lt;queue_type&gt;/
+</pre></div>
+</div>
+<p><strong>Response (success):</strong></p>
+<p>Status Code: 200</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span>
+  <span class="s">&quot;queue_ids&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="s">&quot;1&quot;</span>
+  <span class="p">],</span>
+  <span class="s">&quot;status&quot;</span><span class="p">:</span> <span class="s">&quot;success&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>cURL Example:</strong></p>
+<div class="highlight-python"><div class="highlight"><pre>curl  http://localhost:8080/metrics/sms/
+</pre></div>
+</div>
+</div>
+<div class="section" id="queue-specific-metrics">
+<h3>Queue Specific Metrics<a class="headerlink" href="#queue-specific-metrics" title="Permalink to this headline">¶</a></h3>
+<p>Fetches metrics specific to a particular queue of a specific queue type. The response to the API request contains the enqueue and dequeue counts for each minute over a 10 minute period. The response also contains the length of the queue at that particular point in time.</p>
+<div class="highlight-python"><div class="highlight"><pre>GET /metrics/&lt;queue_type&gt;/&lt;queue_id&gt;/
+</pre></div>
+</div>
+<p><strong>Response (success):</strong></p>
+<p>Status Code: 200</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span>
+  <span class="s">&quot;dequeue_counts&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s">&quot;1406200590000&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&quot;1406200644000&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&quot;1406200692000&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&quot;1406200734000&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&quot;1406200770000&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&quot;1406200800000&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&quot;1406200824000&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&quot;1406200842000&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&quot;1406200854000&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&quot;1406200860000&quot;</span><span class="p">:</span> <span class="mi">0</span>
+  <span class="p">},</span>
+  <span class="s">&quot;enqueue_counts&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s">&quot;1406200590000&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&quot;1406200644000&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&quot;1406200692000&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&quot;1406200734000&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&quot;1406200770000&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&quot;1406200800000&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&quot;1406200824000&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&quot;1406200842000&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&quot;1406200854000&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s">&quot;1406200860000&quot;</span><span class="p">:</span> <span class="mi">0</span>
+  <span class="p">},</span>
+  <span class="s">&quot;queue_length&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+  <span class="s">&quot;status&quot;</span><span class="p">:</span> <span class="s">&quot;success&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Response (bad request):</strong></p>
+<p>Status Code: 400</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span>
+    <span class="s">&quot;message&quot;</span><span class="p">:</span> <span class="s">&quot;`queue_id` should be accompanied by `queue_type`.&quot;</span><span class="p">,</span>
+    <span class="s">&quot;status&quot;</span><span class="p">:</span> <span class="s">&quot;failure&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>cURL Example:</strong></p>
+<div class="highlight-python"><div class="highlight"><pre>curl  http://localhost:8080/metrics/sms/1/
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="index.html">
+    <img class="logo" src="_static/logo.png" alt="Logo"/>
+    
+  </a>
+</p>
+
+
+
+
+
+<p>
+<iframe src="http://ghbtns.com/github-btn.html?user=plivo&repo=sharq-server&type=watch&count=true&size=large"
+  allowtransparency="true" frameborder="0" scrolling="0" width="200px" height="35px"></iframe>
+</p>
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gettingstarted.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#enqueue">Enqueue</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#dequeue">Dequeue</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#finish">Finish</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#interval">Interval</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#metrics">Metrics</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="internals.html">The Internals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faqs.html">Frequently Asked  Questions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2014, Plivo Team.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.2.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.6.1</a>
+      
+      |
+      <a href="_sources/apireference.txt"
+          rel="nofollow">Page source</a></li>
+    </div>
+
+    
+
+    
+  </body>
+</html>
